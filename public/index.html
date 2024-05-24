@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <script defer src="app.js"></script>
+    <style>
+        body {
+            margin: 0px;
+            overflow: hidden;
+        }
+    </style>
+
+
+    <div class="menu">
+        <div class="menu__button">
+            Menu
+        </div>
+        <div class="menu__window">
+            +cube
+            <form id="diceManagerMenu" class="menu__form">
+                <label for="cube_facecount"> face count </label>
+                <select id="cube_facecount" name="cube_facecount">
+                    <option value="4">4</option>
+                    <option value="6">6</option>
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+                    <option value="20">20</option>
+                </select>
+                <label for="cube_colour"> colour </label>
+                <input type="color">
+                <div class="menu__form__fullline">
+                    <button id="cube_spawn_button"> Spawn Cube </button>
+                </div>
+                <div class="menu__form__fullline">
+                    <button id="cube_remove_button"> Remove Cube </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="rollbutton__container">
+        <button id="rollButton" class="rollbutton"> ROLL </button>
+    </div>
+</body>
+</html>
