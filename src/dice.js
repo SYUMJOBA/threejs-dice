@@ -5,7 +5,7 @@ import { world } from "./world";
 import * as CANNON from "cannon-es";
 import * as THREE from "three";
 import { srcGeometries, extractNumMatrixAsList, extractVecArrayAsList as extractVec3ArrayAsList, applyUVsToGeometry } from "./geometries";
-import { D20texture } from "./texture";
+import { dieTextures } from "./texture";
 
 const dieGraphicalGeometries = {
     4 : new THREE.PolyhedronGeometry(
@@ -14,7 +14,10 @@ const dieGraphicalGeometries = {
         1,
         0
     ),
-    6: new THREE.BoxGeometry(2, 2, 2),
+    6: new THREE.PolyhedronGeometry(
+        extractVec3ArrayAsList(srcGeometries[6].points),
+        extractNumMatrixAsList(srcGeometries[6].faces)
+    ),
     8: new THREE.PolyhedronGeometry(
         extractVec3ArrayAsList(srcGeometries[8].points),
         extractNumMatrixAsList(srcGeometries[8].faces),
@@ -43,6 +46,10 @@ const dieGraphicalGeometries = {
 
 export function prepareDiceGeometriesUVs() {
     applyUVsToGeometry(srcGeometries[4].uvs, dieGraphicalGeometries[4]);
+    applyUVsToGeometry(srcGeometries[6].uvs, dieGraphicalGeometries[6]);
+    applyUVsToGeometry(srcGeometries[8].uvs, dieGraphicalGeometries[8]);
+    applyUVsToGeometry(srcGeometries[10].uvs, dieGraphicalGeometries[10]);
+    applyUVsToGeometry(srcGeometries[12].uvs, dieGraphicalGeometries[12]);
     applyUVsToGeometry(srcGeometries[20].uvs, dieGraphicalGeometries[20]);
 }
 prepareDiceGeometriesUVs();
@@ -73,7 +80,15 @@ const diePhysicalGeometries = {
 
 
 const dieMass = 5;
-const dieMaterial = new MeshMatcapMaterial({color: 0xffffff, map: D20texture});
+
+const dieMaterials = {
+    4: new MeshMatcapMaterial({color: 0xffffff, map: dieTextures[4]}),
+    6: new MeshMatcapMaterial({color: 0xffffff, map: dieTextures[6]}),
+    8: new MeshMatcapMaterial({color: 0xffffff, map: dieTextures[8]}),
+    10: new MeshMatcapMaterial({color: 0xffffff, map: dieTextures[10]}),
+    12: new MeshMatcapMaterial({color: 0xffffff, map: dieTextures[12]}),
+    20: new MeshMatcapMaterial({color: 0xffffff, map: dieTextures[20]})
+};
 
 class Die {
     graphicalObject = new Mesh();
@@ -86,32 +101,32 @@ class Die {
         }
         switch (faces) {
             case 4:
-                this.graphicalObject = new Mesh(dieGraphicalGeometries[4], dieMaterial);
+                this.graphicalObject = new Mesh(dieGraphicalGeometries[4], dieMaterials[4]);
                 this.physicalObject = new Body({mass: dieMass, shape: diePhysicalGeometries[4], position: position ? position : new Vec3(0, 0, 0)})
                 break;
                 
             case 6:
-                this.graphicalObject = new Mesh(dieGraphicalGeometries[6], dieMaterial);
+                this.graphicalObject = new Mesh(dieGraphicalGeometries[6], dieMaterials[6]);
                 this.physicalObject = new Body({mass: dieMass, shape: diePhysicalGeometries[6], position: position ? position : new Vec3(0, 0, 0)});
                 break;
             
             case 8:
-                this.graphicalObject = new Mesh(dieGraphicalGeometries[8], dieMaterial);
+                this.graphicalObject = new Mesh(dieGraphicalGeometries[8], dieMaterials[8]);
                 this.physicalObject = new Body({mass: dieMass, shape:diePhysicalGeometries[8], position: position ? position : new Vec3(0, 0, 0)});
                 break;
             
             case 10:
-                this.graphicalObject = new Mesh(dieGraphicalGeometries[10], dieMaterial);
+                this.graphicalObject = new Mesh(dieGraphicalGeometries[10], dieMaterials[10]);
                 this.physicalObject = new Body({mass: dieMass, shape: diePhysicalGeometries[10], position: position ? position : new Vec3(0, 0, 0)});
                 break;
             
             case 12:
-                this.graphicalObject = new Mesh(dieGraphicalGeometries[12], dieMaterial);
+                this.graphicalObject = new Mesh(dieGraphicalGeometries[12], dieMaterials[12]);
                 this.physicalObject = new Body({mass: dieMass, shape: diePhysicalGeometries[12], position: position ? position: new Vec3(0, 0, 0)});
                 break;
             
             case 20:
-                this.graphicalObject = new Mesh(dieGraphicalGeometries[20], dieMaterial);
+                this.graphicalObject = new Mesh(dieGraphicalGeometries[20], dieMaterials[20]);
                 this.physicalObject = new Body({mass: dieMass, shape: diePhysicalGeometries[20], position: position ? position: new Vec3(0, 0, 0)});
                 break;
             
